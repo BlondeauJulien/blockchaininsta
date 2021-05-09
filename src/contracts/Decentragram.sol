@@ -14,12 +14,20 @@ contract Decentragram {
         address payable author;
     }
 
+    event ImageCreated(
+        uint256 id,
+        string hash,
+        string description,
+        uint256 tipAmount,
+        address payable author
+    );
+
     // Create Images
     function uploadImage(string memory _imgHash, string memory _description)
         public
     {
         // Increment image id
-        imageCount = imageCount++;
+        imageCount++;
         //add image to contract
         images[imageCount] = Image(
             imageCount,
@@ -28,6 +36,9 @@ contract Decentragram {
             0,
             msg.sender // msg.sender is the person that send this request (their etherum address)
         );
+
+        //Trigger an event
+        emit ImageCreated(imageCount, _imgHash, _description, 0, msg.sender);
     }
 
     //Tip Images
